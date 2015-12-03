@@ -1,0 +1,28 @@
+- name: Install core packages
+  action: apt pkg={{ item }}
+  with_items:
+    - build-essential
+    - openssl
+    - libreadline6
+    - libreadline6-dev
+    - curl
+    - libcurl4-openssl-dev
+    - git-core
+    - zlib1g
+    - zlib1g-dev
+    - libssl-dev
+    - libyaml-dev
+    - libxml2-dev
+    - libxslt1-dev
+    - libsqlite3-dev
+    - autoconf
+    - libc6-dev
+    - libncurses5-dev
+    - automake
+    - libtool
+    - bison
+    - pkg-config
+    - libcurl4-openssl-dev
+    - python-software-properties
+    - apt-transport-https
+    - ca-certificates

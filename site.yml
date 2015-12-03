@@ -1,0 +1,33 @@
+---
+# This playbook deploys the whole app stack
+# If you're running this on a newly-provisioned server, set run_bootstrap_tasks=yes
+# Otherwise, set it to no
+
+# Apply common configuration to all hosts
+- hosts: digitalocean
+  remote_user: deploy
+  sudo: yes
+  roles:
+  - common
+
+# Configure and deploy database servers
+- hosts: digitalocean
+  remote_user: deploy
+  sudo: no
+  vars:
+    - app_name: "{{ app_name }}"
+    - db_password: "{{ db_password }}"
+    - run_bootstrap_tasks: false
+  roles:
+    - db
+
+# # # Configure and deploy the web servers
+- hosts: digitalocean
+  remote_user: deploy
+  sudo: no
+  vars:
+    - app_name: "{{ app_name }}"
+    - db_password: "{{ db_password }}"
+    - app_url:
+  roles:
+    - web

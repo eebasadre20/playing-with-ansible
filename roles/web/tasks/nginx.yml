@@ -1,0 +1,15 @@
+- name: Install Nginx
+  apt: name=nginx
+  sudo: yes
+
+- name: Remove Ubuntu default nginx site
+  sudo: yes
+  command: rm /etc/nginx/sites-available/default removes=/etc/nginx/sites-available/default
+
+- name: Create Nginx site config
+  sudo: yes
+  template: src=site.conf.j2 owner=deploy group=deploy dest="/etc/nginx/sites-available/{{ app_name }}.conf" backup=yes
+
+- name: Enable site
+  sudo: yes
+  file: state=link src="/etc/nginx/sites-available/{{ app_name }}.conf" dest="/etc/nginx/sites-enabled/{{ app_name }}.conf" force=yes

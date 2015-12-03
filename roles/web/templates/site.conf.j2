@@ -1,0 +1,24 @@
+upstream {{ app_name }} {
+  server unix:///var/run/{{ app_name }}.sock;
+}
+
+server {
+  listen 80;
+  server_name {{ app_name }};
+  root /data/{{ app_name }}/current/public;
+  passenger_enabled on;
+
+  location ~* ^/assets/ {
+    # Per RFC2616 - 1 year maximum expiry
+    expires 1y;
+    add_header Cache-Control public;
+
+    # Some browsers still send conditional-GET requests if there's a
+    # Last-Modified header or an ETag header even if they haven't
+    # reached the expiry date sent in the Expires header.
+    add_header Last-Modified "";
+    add_header ETag "";
+    break;
+  }
+}
+
